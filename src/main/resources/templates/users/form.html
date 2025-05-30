@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/default :: layout(~{::title}, ~{::section})}">
+<head>
+    <title th:text="${isNew ? '添加用户' : '编辑用户'}">用户表单 - Spring Demo</title>
+</head>
+<body>
+    <section>
+        <h2 th:text="${isNew ? '添加新用户' : '编辑用户'}">用户表单</h2>
+        
+        <div class="card">
+            <div class="card-body">
+                <form th:if="${isNew}" th:action="@{/users}" th:object="${user}" method="post">
+                    <div th:replace="~{users/form-fields :: fields}"></div>
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/users}" class="btn btn-secondary">取消</a>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+                
+                <form th:unless="${isNew}" th:action="@{/users/{id}(id=${user.id})}" th:object="${user}" method="post">
+                    <div th:replace="~{users/form-fields :: fields}"></div>
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/users}" class="btn btn-secondary">取消</a>
+                        <button type="submit" class="btn btn-primary">更新</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

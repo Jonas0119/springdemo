@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/default :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>数据源配置 - Spring Demo</title>
+</head>
+<body>
+    <section>
+        <h2>数据源配置</h2>
+        
+        <div class="alert alert-info">
+            <p>当前数据源: <strong th:text="${currentDataSourceType == 'h2' ? 'H2内存数据库' : 'MySQL数据库'}">H2内存数据库</strong></p>
+            <p class="mb-0"><small>注意：切换数据源后需要重启应用才能生效</small></p>
+        </div>
+        
+        <div th:if="${param.success}" class="alert alert-success">
+            数据源配置已更新，请重启应用以应用更改。
+        </div>
+        
+        <div th:if="${param.error}" class="alert alert-danger">
+            更新数据源配置时出错，请检查日志。
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <form th:action="@{/config/datasource}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">选择数据源</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" id="h2" value="h2" th:checked="${currentDataSourceType == 'h2'}">
+                            <label class="form-check-label" for="h2">
+                                H2内存数据库
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" id="mysql" value="mysql" th:checked="${currentDataSourceType == 'mysql'}">
+                            <label class="form-check-label" for="mysql">
+                                MySQL数据库 (127.0.0.1, 用户名: root, 密码: ZY520kjh)
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">保存配置</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <a th:href="@{/}" class="btn btn-secondary">返回首页</a>
+        </div>
+    </section>
+</body>
+</html>
